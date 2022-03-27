@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina no encontrada</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;1,400&display=swap">
+
+    <style>
+        :root {
+            --body-font: "Nunito", sans-serif;
+            --normal-font-size: 1rem;
+        }
+
+        #B404 {
+            font-family: var(--body-font);
+            font-size: var(--normal-font-size);
+            background-color: black;
+            color: yellow;
+            -moz-font-smoothing: antialiased;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .error-container {
+            text-align: center;
+        }
+
+        .error-container h1 {
+            margin: 0;
+            font-size: 160px;
+            font-weight: 300;
+        }
+    </style>
+</head>
+
+<body id="B404" >
+    <div class="error-container mb-6">
+        <h3>Opps !!!, a donde vamos !!!</h3>
+        <hr />
+        <h1>404</h1>
+        <hr />
+        <h3>Asi no llegamos a ningun lado, JAJAJAJA</h3>
+        <a class="btn btn-danger formloginbtn" href="{{ url_for('.index') }}">Volver al Home</a>
+    </div>
+</body>
+
+</html>
