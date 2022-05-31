@@ -1,0 +1,23 @@
+body {
+    margin-bottom: 10rem;
+}
+
+.div_text_user {
+    padding-left: 1rem;
+}
+
+.div_exit_btn {
+    padding-right: 1rem;
+}
+
+.text_message {
+    padding: 1rem;
+}
+
+.border1 {
+    border: 1px solid;
+}
+
+.bg-message {
+    background-color: #ff812d;
+}

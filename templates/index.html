@@ -1,96 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Flask Calendar</title>
-        <link rel="icon" href="{{ url_for('static', filename='fav-icon.png') }}">
+{% extends './layout.html' %}
 
-        <!-- Boostrap -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
-        <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" defer></script>
-
-        <!-- js -->
-        <script src="{{ url_for('static', filename='main.js') }}" defer></script>
-    </head>
-
-    <body>
-        <div class="container-fluid">
+{% block body %}
+<div class="container-fluid">
+    <h2 class="text-center bg-message text_message">{{ data.message }}</h2>
+    {% if not 'username' in session %}
+        <div class="col">
             <div class="row">
-                <div class="col-12 bg-light justify-content-center text-center">
-                    <label class="display-2"> Flask Calendar {{date.year}} </label>
+                <!-- Login Form -->
+                <div class="text-center text_message">
+                    <h4>{{ data.messagealternative }}</h4>
                 </div>
             </div>
-            <div class="row p-3 justify-content-center">
-                <div class="col text-center fs-4">
-                    <label for="months">Mes: </label>
-                    <select class="col-md-4" name="months" onchange="validate_month(this)">
-                        {% for item in month_of_year %}
-                            <option value="{{ item }}" {% if this_month == item %} selected {% endif %} >{{ month_of_year[item] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            {% for month_addr,monthInfo in content.items()%}
-                {% if month_addr == this_month %}
-                    <div class="row text-center p-3">
-                        <div class="col-md-6">
-                            <table class="table table-bordered">
-                                <tr class="bg-dark">
-                                    {% for addr in day_of_week %}
-                                        <th class="text-warning">{{addr}}</th>
+            {% if not data.errbd %}
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-sm-6 text_message border1">
+                    <form method="POST" action="/login" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label for="txtUser" class="form-label">Usuario</label>
+                            <input type="text" name="txtUser" class="form-control" id="txtUser" aria-describedby="txtUserHelp" required>
+                            <div id="txtUserHelp" class="form-text">Ingrese su Identificación de Usuario</div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="txtPassword" class="form-label">Contraseña</label>
+                            <input type="password" name="txtPassword" class="form-control" id="txtPassword">
+                        </div>
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <div class="mb-4 text-center">
+                                    {% for message in messages %}
+                                    <label style="color: red">{{ message }}</label>
                                     {% endfor %}
-                                </tr>
-                                {% for weeks in monthInfo %}
-                                    <tr>
-                                        {% for day in weeks %}
-                                            {% if day == 0 %}
-                                                <td class="bg-light">&nbsp</td>
-                                            {% elif actual_month == this_month and day == date.day %}
-                                                <td class="bg-primary">{{ day }}</td>
-                                            {% else %}
-                                                <td>{{ day }}</td>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                        <div class="col-md-6">
-                            <!-- <img src="https://source.unsplash.com/random/500x250/?four-seasons,nature" class="img-fluid" alt="Unspalash Image Nature -Four Seasons"> -->
-                            <label for="disclamer" class="fs-6 py-2">Las imagenes que se muestran son en modo Random de <a href="http://unsplash.com" target="_blank">Unspalash.com</a></label>
-                        </div>
-                        <div class="col-md-6 bg-dark p-3 text-warning">
-                            Consultar que dia de la semana fue:
-                            <form  method="POST" action="/">
-                                <div class="p-3 row g-1">
-                                    <div class="input-group col-md-2">
-                                        <span class="input-group-text">Dia</span>
-                                        <input name="day" id="day" type="number" class="form-control" placeholder="dd" value={{ date.day }}  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min=1 max=31 maxlength="2" onchange="return validate_date(this)">
-                                    </div>
-                                    <div class="input-group col-md-2">
-                                        <span class="input-group-text">Mes</span>
-                                        <input name="month" id="month" type="number" class="form-control" placeholder="MM" value={{ date.month }} oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min=1 max=12 maxlength="2" onchange="return validate_date(this)">
-                                    </div>
-                                    <div class="input-group col-md-2">
-                                        <span class="input-group-text">Año</span>
-                                        <input name="year" id="year" type="number" class="form-control" placeholder="yyyy" value={{ date.year }} oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" min=1 max=9999 maxlength="4" onchange="return validate_date(this)">
-                                    </div>
-                                    <div class="input-group col">
-                                        <button id='btn_game' class="btn btn-outline-secondary" type="submit"> Validar </button>
-                                    </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="col-md-6 bg-dark p-3 text-warning">
-                            <label id='message'for="disclamer" class="fs-6 py-2">Desde JS <br> El dia de la Semana: </label>
-                            <hr>
-                            <label id='pymessage'for="disclamer" class="fs-6 py-2">Desde Python <br> El dia de la Semana: {{ str_date }}</label>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <button type="submit" class="btn btn-primary" value="Ingresar"> Ingresar </button>
+                    </form>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <img src="{{ url_for('static', filename='assets/images/background.jpg') }}" class="img-fluid p-3" alt="Calendario">                
+            </div>
+            {% endif %}
         </div>
-    </body>
-</html>
+    {% endif %}
+</div>
+{% endblock %}

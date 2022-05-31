@@ -1,0 +1,58 @@
+{% extends './layout.html' %}
+
+{% block body %}
+{% if 'username' in session %}
+    <div class="container-fluid">
+        <h2 class="text-center bg-message text_message">{{ data.message }}</h2>
+        <div class="col-md-6 bg-dark p-3 text-warning">
+            Consultar que dia de la semana fue:
+            <form method="POST" action="/validate">
+                <div class="p-3 row g-1">
+                    <div class="input-group col-md-2">
+                        <span class="input-group-text">Dia</span>
+                        <input name="day" id="day" type="number" class="form-control" placeholder="dd" value={{ date.day
+                            }}
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            min=1 max=31 maxlength="2" onchange="return validate_date(this)">
+                    </div>
+                    <div class="input-group col-md-2">
+                        <span class="input-group-text">Mes</span>
+                        <input name="month" id="month" type="number" class="form-control" placeholder="MM" value={{
+                            date.month }}
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            min=1 max=12 maxlength="2" onchange="return validate_date(this)">
+                    </div>
+                    <div class="input-group col-md-2">
+                        <span class="input-group-text">Año</span>
+                        <input name="year" id="year" type="number" class="form-control" placeholder="yyyy" value={{
+                            date.year }}
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            min=1 max=9999 maxlength="4" onchange="return validate_date(this)">
+                    </div>
+                    <div class="input-group col">
+                        <button id='btn_game' class="btn btn-outline-secondary" type="submit"> Validar </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 bg-dark p-3 text-warning">
+            <label id='message' for="disclamer" class="fs-6 py-2">Desde JS <br> El dia de la Semana: </label>
+            <hr>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="mb-4 text-center">
+                        {% for message in messages %}
+                        <label style="color: red">{{ message }}</label>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <label id='pymessage' for="disclamer" class="fs-6 py-2">Desde Python <br> El dia de la Semana: {{ str_date }}</label>
+        </div>
+    </div>
+{% else %}
+    <div class="col text-center">
+        <a class="btn btn-danger formloginbtn" href="{{ url_for('.index') }}">Volver al Home</a>
+    </div>
+{% endif %}
+{% endblock %}

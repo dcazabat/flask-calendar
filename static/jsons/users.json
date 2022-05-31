@@ -1,0 +1,28 @@
+{
+    "users": [
+        {
+            "username": "daniel",
+            "pass": "12345",
+            "name": "Daniel Cazabat",
+            "dni": "11.111.111",
+            "isadmin": "True",
+            "superuser":"True"
+        },
+        {
+            "username": "user",
+            "pass": "user",
+            "name": "Usuario",
+            "dni": "22.222.222",
+            "isadmin": "True",
+            "superuser":"False"
+        },
+        {
+            "username": "test",
+            "pass": "test",
+            "name": "User Testing",
+            "dni": "11.111.111",
+            "isadmin": "False",
+            "superuser":"False"
+        }
+    ]
+}

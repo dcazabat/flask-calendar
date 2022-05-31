@@ -1,0 +1,62 @@
+{% extends './layout.html' %}
+
+{% block body %}
+{% if 'username' in session %}
+<div class="container-fluid">
+    <h2 class="text-center bg-message text_message">{{ data.message }}</h2>
+        <div class="row">
+            <div class="col-12 bg-light justify-content-center text-center">
+                <label class="display-2"> Flask Calendar {{date.year}} </label>
+            </div>
+        </div>
+        <div class="row p-3 justify-content-center">
+            <div class="col text-center fs-4">
+                <label for="months">Mes: </label>
+                <select class="col-md-4" name="months" onchange="validate_month(this)">
+                    {% for item in month_of_year %}
+                        <option value="{{ item }}" {% if this_month==item %} selected {% endif %}>{{ month_of_year[item] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {% for month_addr,monthInfo in content.items()%}
+            {% if month_addr == this_month %}
+                <div class="row text-center p-3">
+                    <div class="col-md-6">
+                        <table class="table table-bordered">
+                            <tr class="bg-dark">
+                                {% for addr in day_of_week %}
+                                    <th class="text-warning">{{addr}}</th>
+                                {% endfor %}
+                            </tr>
+                            {% for weeks in monthInfo %}
+                                <tr>
+                                    {% for day in weeks %}
+                                        {% if day == 0 %}
+                                            <td class="bg-light">&nbsp</td>
+                                        {% elif actual_month == this_month and day == date.day %}
+                                            <td class="bg-primary">{{ day }}</td>
+                                        {% else %}
+                                            <td>{{ day }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="https://source.unsplash.com/random/500x250/?four-seasons,nature" class="img-fluid" alt="Unspalash Image Nature -Four Seasons">
+                        <label for="disclamer" class="fs-6 py-2">Las imagenes que se muestran son en modo Random de <a
+                                href="http://unsplash.com" target="_blank">Unspalash.com</a></label>
+                    </div>
+
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="col text-center">
+        <a class="btn btn-danger formloginbtn" href="{{ url_for('.index') }}">Volver al Home</a>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,5 +1,5 @@
 function validate_month(selectedStand){
-    document.location.href="/"+selectedStand.value
+    document.location.href="/calendar/"+selectedStand.value
 }
 
 function validate_date(selectedItem){
